@@ -43,7 +43,7 @@ class MovieServiceTest {
 
     static class MockMovieRepository extends MovieRepository {
 
-        public MockMovieRepository(NaverProperties naverProperties, RestTemplate restTemplate) {
+        MockMovieRepository(NaverProperties naverProperties, RestTemplate restTemplate) {
             super(naverProperties, restTemplate);
         }
 

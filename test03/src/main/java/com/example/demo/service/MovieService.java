@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.core.dto.MovieDTO;
 import com.example.demo.repository.MovieRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -10,10 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class MovieService {
 
     private final MovieRepository movieRepository;
+
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
     public List<MovieDTO> findByQuery(String query) {
 
@@ -42,6 +44,7 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
+    //TODO: 코드 좀 더 깔끔하게 변경 가능한지?
     private String removeSpecialCharacter(String str) {
 
         String resultStr = str;

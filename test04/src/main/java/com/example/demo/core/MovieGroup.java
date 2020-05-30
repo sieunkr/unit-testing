@@ -20,7 +20,7 @@ public class MovieGroup {
     }
 
     public OptionalDouble calculateAverageUserRating() {
-        return list.stream()
+        return sortByRanking().stream()
                 .limit(2)   //TODO:매직넘버
                 .mapToDouble(MovieDTO::getUserRating)
                 .average();

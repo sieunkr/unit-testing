@@ -33,7 +33,6 @@ class MovieServiceTest {
 
         //given
         float expectedUserRanking = 9.7f;
-        //MovieRepository movieRepository = Mockito.mock(MovieRepository.class);
         Mockito.when(movieRepository.findByQuery(any())).thenReturn(getStubMovieList());
         movieService = new MovieService(movieRepository);
 
