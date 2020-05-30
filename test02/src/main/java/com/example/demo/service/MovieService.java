@@ -18,22 +18,26 @@ public class MovieService {
 
     public List<MovieDTO> findByQuery(String query) {
 
-        List<MovieDTO> list = movieRepository.findByQuery(query).getItems().stream()
+        return findByQueryImpl(query);
+    }
+
+    public List<MovieDTO>  findByQueryOrderRating(String query) {
+
+        return findByQueryImpl(query).stream()
+                //.sorted((a, b) -> (int)(b.getUserRating()*100) - (int)(a.getUserRating()*100))
+                .sorted((a, b) -> b.getUserRating() > a.getUserRating() ? 1 : -1)
+                .collect(Collectors.toList());
+    }
+
+    //TODO: 메서드 네이밍 고민 중
+    private List<MovieDTO> findByQueryImpl(String query) {
+
+        return movieRepository.findByQuery(query).getItems().stream()
                 .map(m -> MovieDTO.builder()
                         .title(m.getTitle())
                         .link(m.getLink())
                         .userRating(m.getUserRating())
                         .build())
-                .collect(Collectors.toList());
-
-        return sortByUserRating(list);
-    }
-
-    protected List<MovieDTO> sortByUserRating(List<MovieDTO> list) {
-
-        return list.stream()
-                //.sorted((a, b) -> (int)(b.getUserRating()*100) - (int)(a.getUserRating()*100))
-                .sorted((a, b) -> b.getUserRating() > a.getUserRating() ? 1 : -1)
                 .collect(Collectors.toList());
     }
 }

@@ -23,6 +23,11 @@ public class MovieService {
         return getMovieGroup(query).getList();
     }
 
+    public List<MovieDTO> findByQueryOrderRating(String query) {
+
+        return getMovieGroup(query).getListOrderRating();
+    }
+
     public double calculateAverageUserRating(String query) {
 
         return getMovieGroup(query).calculateAverageUserRating().getAsDouble();
@@ -30,22 +35,18 @@ public class MovieService {
 
     private MovieGroup getMovieGroup(String query) {
 
-        List<MovieDTO> list = movieRepository.findByQuery(query).getItems().stream()
+        return new MovieGroup(findByQueryImpl(query));
+    }
+
+    //TODO: 메서드 네이밍 고민 중
+    private List<MovieDTO> findByQueryImpl(String query) {
+
+        return movieRepository.findByQuery(query).getItems().stream()
                 .map(m -> MovieDTO.builder()
-                        .title(removeSpecialCharacter(m.getTitle()))
+                        .title(m.getCleanTitle())
                         .link(m.getLink())
                         .userRating(m.getUserRating())
                         .build())
                 .collect(Collectors.toList());
-
-        return new MovieGroup(list);
-    }
-
-    private String removeSpecialCharacter(String str) {
-
-        String resultStr = str;
-        resultStr = StringUtils.replace(resultStr, "<b>", "");
-        resultStr = StringUtils.replace(resultStr, "</b>", "");
-        return resultStr;
     }
 }

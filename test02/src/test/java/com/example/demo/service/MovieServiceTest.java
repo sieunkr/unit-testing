@@ -37,7 +37,7 @@ class MovieServiceTest {
         movieService = new MovieService(movieRepository);
 
         //when
-        List<MovieDTO> actualList = movieService.findByQuery("쿼리");
+        List<MovieDTO> actualList = movieService.findByQueryOrderRating("쿼리");
 
         //then
         assertEquals(expectedUserRanking, actualList.stream().findFirst().get().getUserRating());

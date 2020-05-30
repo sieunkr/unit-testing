@@ -22,6 +22,6 @@ public class SearchRestController {
     @GetMapping("/movies")
     public List<MovieDTO> searchMovies(@RequestParam(name = "q") String query) {
 
-        return movieService.findByQuery(query);
+        return movieService.findByQueryOrderRating(query);
     }
 }
