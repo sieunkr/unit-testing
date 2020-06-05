@@ -1,6 +1,6 @@
 package com.example.demo.web;
 
-import com.example.demo.core.dto.MovieDTO;
+import com.example.demo.core.model.Movie;
 import com.example.demo.service.MovieService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class SearchRestController {
     }
 
     @GetMapping("/movies")
-    public List<MovieDTO> searchMovies(@RequestParam(name = "q") String query) {
+    public List<Movie> searchMovies(@RequestParam(name = "q") String query) {
 
         return movieService.findByQueryOrderRating(query);
     }

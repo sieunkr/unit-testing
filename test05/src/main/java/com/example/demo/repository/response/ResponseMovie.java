@@ -25,17 +25,5 @@ public class ResponseMovie {
         private float userRating;
         //...TODO: 필드 추가
 
-        public String getCleanTitle() {
-            return removeSpecialCharacter(title);
-        }
-
-        //TODO: 코드 좀 더 깔끔하게 변경 가능한지?
-        private String removeSpecialCharacter(String str) {
-
-            String resultStr = str;
-            resultStr = StringUtils.replace(resultStr, "<b>", "");
-            resultStr = StringUtils.replace(resultStr, "</b>", "");
-            return resultStr;
-        }
     }
 }

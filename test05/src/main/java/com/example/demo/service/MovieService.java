@@ -1,13 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.core.MovieGroup;
-import com.example.demo.core.dto.MovieDTO;
+import com.example.demo.core.model.MovieGroup;
+import com.example.demo.core.model.Movie;
+import com.example.demo.core.repository.MovieRepository;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ExceptionMessage;
-import com.example.demo.exception.OpenApiRuntimeException;
-import com.example.demo.repository.MovieRepository;
+import com.example.demo.repository.MovieRepositoryImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -18,16 +17,16 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepositoryImpl movieRepository) {
         this.movieRepository = movieRepository;
     }
 
-    public List<MovieDTO> findByQuery(String query) {
+    public List<Movie> findByQuery(String query) {
 
         return getMovieGroup(query).getList();
     }
 
-    public List<MovieDTO> findByQueryOrderRating(String query) {
+    public List<Movie> findByQueryOrderRating(String query) {
 
         if (StringUtils.isEmpty(query)) {
             throw new BadRequestException(ExceptionMessage.BAD_REQUEST_QUERY_EMPTY);
@@ -47,14 +46,8 @@ public class MovieService {
     }
 
     //TODO: 메서드 네이밍 고민 중
-    private List<MovieDTO> findByQueryImpl(String query) {
+    private List<Movie> findByQueryImpl(String query) {
 
-        return movieRepository.findByQuery(query).getItems().stream()
-                .map(m -> MovieDTO.builder()
-                        .title(m.getCleanTitle())
-                        .link(m.getLink())
-                        .userRating(m.getUserRating())
-                        .build())
-                .collect(Collectors.toList());
+        return movieRepository.findByQuery(query);
     }
 }
